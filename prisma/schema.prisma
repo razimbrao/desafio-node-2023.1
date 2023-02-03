@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Restaurants {
+model Restaurant {
   id       Int        @id @default(autoincrement())
   email    String     @unique
   name     String?
@@ -19,29 +19,32 @@ model Restaurants {
   city     String
   address  String
   phone    String?
-  Products Products[]
-  Orders   Orders[]
+  Products Product[]
+  Orders   Order[]
+	@@map("restaurants")
 }
 
-model Products {
+model Product {
   id           Int         @id @default(autoincrement())
   name         String
   description  String
   price        String
   category     String
   restaurantId Int
-  orders       Orders[]
-  restaurant   Restaurants @relation(fields: [restaurantId], references: [id])
+  orders       Order[]
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+	@@map("products")
 }
 
-model Orders {
+model Order {
   id             Int         @id @default(autoincrement())
-  products       Products[]
+  products       Product[]
   total_value    Float
   client_name    String
   client_city    String
   client_address String
   client_phone   String
   restaurantId   Int
-  restaurant     Restaurants @relation(fields: [restaurantId], references: [id])
+  restaurant     Restaurant @relation(fields: [restaurantId], references: [id])
+	@@map("orders")
 }

@@ -1,16 +1,16 @@
-import { PrismaClient, Restaurants } from "@prisma/client";
+import { PrismaClient, Restaurant } from "@prisma/client";
 import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 prisma.$connect();
 
 async function main() {
-    await prisma.restaurants.deleteMany({});
+    await prisma.restaurant.deleteMany({});
     const amount = 50;
-    const restaurants: Restaurants[] = [];
+    const restaurants: Restaurant[] = [];
 
     for (let i = 0; i < amount; i++) {
-        const restaurant: Restaurants = {
+        const restaurant: Restaurant = {
             id: i,
             email: faker.internet.email(),
             name: faker.company.name(),
@@ -23,7 +23,7 @@ async function main() {
         restaurants.push(restaurant);
     }
 
-    await prisma.restaurants.createMany({ data: restaurants });
+    await prisma.restaurant.createMany({ data: restaurants });
 }
 
 main()
