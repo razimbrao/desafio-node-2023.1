@@ -17,7 +17,7 @@ router.delete("/restaurant/:id", ensureAuthenticated, new restaurantController()
 
 router.get("/product", new productController().list());
 router.get("/product/:id", new productController().view());
-router.post("/product", new productController().create());
+router.post("/product", ensureAuthenticated, new productController().create());
 router.put("/product/:id", ensureAuthenticated, new productController().update());
 router.delete("/product/:id", ensureAuthenticated, new productController().delete());
 

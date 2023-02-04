@@ -36,7 +36,7 @@ export class authenticateController {
         const token = sign({}, "code",
             {
                 subject: "restaurant.id",
-                expiresIn: "60s",
+                expiresIn: "1h",
             })
         return { token };
     }

@@ -73,6 +73,8 @@ export class restaurantController {
       const { id } = request.params;
       const { email, name, password, category, city, address, phone } = request.body;
 
+      const hashedPassword = await hash(password, 8);
+
       const restaurant = await prismaClient.restaurant.update({
         where: {
           id: Number(id)
