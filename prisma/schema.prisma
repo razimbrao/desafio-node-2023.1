@@ -11,40 +11,43 @@ datasource db {
 }
 
 model Restaurant {
-  id       Int        @id @default(autoincrement())
-  email    String     @unique
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
   name     String?
   password String
   category String
   city     String
   address  String
   phone    String?
-  Products Product[]
-  Orders   Order[]
-	@@map("restaurants")
+  products Product[]
+  orders   Order[]
+
+  @@map("restaurants")
 }
 
 model Product {
-  id           Int         @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
   description  String
-  price        String
+  price        Decimal
   category     String
   restaurantId Int
   orders       Order[]
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-	@@map("products")
+
+  @@map("products")
 }
 
 model Order {
-  id             Int         @id @default(autoincrement())
-  products       Product[]
-  total_value    Float
+  id             Int        @id @default(autoincrement())
+  total_value    Decimal
   client_name    String
   client_city    String
   client_address String
   client_phone   String
   restaurantId   Int
+  products       Product[]
   restaurant     Restaurant @relation(fields: [restaurantId], references: [id])
-	@@map("orders")
+
+  @@map("orders")
 }
