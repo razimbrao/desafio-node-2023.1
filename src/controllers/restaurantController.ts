@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prismaClient } from "../database/prismaClient";
+import { hash } from "bcryptjs";
 
 export class restaurantController {
 
@@ -21,11 +22,13 @@ export class restaurantController {
         })
       }
 
+      const hashedPassword = await hash(password, 8);
+
       const restaurant = await prismaClient.restaurant.create({
         data: {
           email,
           name,
-          password,
+          password: hashedPassword,
           category,
           city,
           address,
