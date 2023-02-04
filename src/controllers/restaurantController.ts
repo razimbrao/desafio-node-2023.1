@@ -7,6 +7,20 @@ export class restaurantController {
     return async (request: Request, response: Response) => {
       const { email, name, password, category, city, address, phone } = request.body;
 
+      const emailExists = await prismaClient.restaurant.findUnique(
+        {
+          where: {
+            email: email
+          }
+        }
+      )
+
+      if (emailExists) {
+        return response.status(400).json({
+          error: "Email já cadastrado!"
+        })
+      }
+
       const restaurant = await prismaClient.restaurant.create({
         data: {
           email,
@@ -25,7 +39,13 @@ export class restaurantController {
 
   list() {
     return async (request: Request, response: Response) => {
-      const restaurant = await prismaClient.restaurant.findMany();
+      const restaurant = await prismaClient.restaurant.findMany( 
+        {
+          orderBy: {
+            id: 'asc'
+          }
+        }
+      );
 
       return response.json(restaurant);
     }

@@ -2,9 +2,28 @@ import { Request, Response } from "express";
 import { prismaClient } from "../database/prismaClient";
 
 export class productController {
-    create(){
+
+    create() {
         return async (request: Request, response: Response) => {
             const { name, description, price, category, restaurantId } = request.body;
+
+            const restaurantExists = await prismaClient.restaurant.findUnique({
+                where: {
+                    id: Number(restaurantId)
+                }
+            })
+
+            if (!restaurantExists) {
+                return response.status(400).json({
+                    error: "Restaurante não encontrado!"
+                })
+            }
+
+            if (price < 0) {
+                return response.status(400).json({
+                    error: "Preço inválido!"
+                })
+            }
 
             const product = await prismaClient.product.create({
                 data: {
@@ -20,15 +39,21 @@ export class productController {
         }
     }
 
-    list(){
+    list() {
         return async (request: Request, response: Response) => {
-            const product = await prismaClient.product.findMany();
-
+            const product = await (await prismaClient.product.findMany(
+                {
+                    orderBy: {
+                        id: 'asc'
+                    }
+                }
+            ));
+           
             return response.json(product);
         }
     }
 
-    view(){
+    view() {
         return async (request: Request, response: Response) => {
             const { id } = request.params;
 
@@ -42,10 +67,28 @@ export class productController {
         }
     }
 
-    update(){
+    update() {
         return async (request: Request, response: Response) => {
             const { id } = request.params;
             const { name, description, price, category, restaurantId } = request.body;
+
+            const restaurantExists = await prismaClient.restaurant.findUnique({
+                where: {
+                    id: Number(restaurantId)
+                }
+            })
+
+            if (!restaurantExists) {
+                return response.status(400).json({
+                    error: "Restaurante não encontrado!"
+                })
+            }
+
+            if (price < 0) {
+                return response.status(400).json({
+                    error: "Preço inválido!"
+                })
+            }
 
             const product = await prismaClient.product.update({
                 where: {
@@ -64,7 +107,7 @@ export class productController {
         }
     }
 
-    delete(){
+    delete() {
         return async (request: Request, response: Response) => {
             const { id } = request.params;
 
