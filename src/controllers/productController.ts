@@ -14,13 +14,13 @@ export class productController {
             })
 
             if (!restaurantExists) {
-                return response.status(400).json({
+                return response.status(404).json({
                     error: "Restaurante não encontrado!"
                 })
             }
 
             if (price < 0) {
-                return response.status(400).json({
+                return response.status(401).json({
                     error: "Preço inválido!"
                 })
             }
@@ -63,6 +63,12 @@ export class productController {
                 }
             })
 
+            if (!product) {
+                return response.status(404).json({
+                    error: "Produto não encontrado!"
+                })
+            }
+
             return response.json(product);
         }
     }
@@ -79,13 +85,13 @@ export class productController {
             })
 
             if (!restaurantExists) {
-                return response.status(400).json({
-                    error: "Restaurante não encontrado!"
+                return response.status(404).json({
+                    error: "Restaurante ou produto não encontrado!"
                 })
             }
 
             if (price < 0) {
-                return response.status(400).json({
+                return response.status(401).json({
                     error: "Preço inválido!"
                 })
             }
@@ -103,6 +109,12 @@ export class productController {
                 }
             })
 
+            if (!product) {
+                return response.status(404).json({
+                    error: "Restaurante ou produto não encontrado!"
+                })
+            }
+
             return response.json();
         }
     }
@@ -116,6 +128,12 @@ export class productController {
                     id: Number(id)
                 }
             })
+
+            if (!product) {
+                return response.status(404).json({
+                    error: "Produto não encontrado!"
+                })
+            }
 
             return response.json();
         }

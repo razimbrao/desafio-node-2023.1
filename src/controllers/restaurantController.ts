@@ -17,7 +17,7 @@ export class restaurantController {
       )
 
       if (emailExists) {
-        return response.status(400).json({
+        return response.status(401).json({
           error: "Email já cadastrado!"
         })
       }
@@ -58,11 +58,18 @@ export class restaurantController {
     return async (request: Request, response: Response) => {
       const { id } = request.params;
 
+
+
       const restaurant = await prismaClient.restaurant.findUnique({
         where: {
           id: Number(id)
         }
       })
+      if (!restaurant) {
+        return response.status(404).json({
+          error: "Restaurante não encontrado!"
+        })
+      }
 
       return response.json(restaurant);
     }
@@ -82,7 +89,7 @@ export class restaurantController {
         data: {
           email,
           name,
-          password,
+          password: hashedPassword,
           category,
           city,
           address,
@@ -90,6 +97,11 @@ export class restaurantController {
         }
       })
 
+      if (!restaurant) {
+        return response.status(404).json({
+          error: "Restaurante não encontrado!"
+        })
+      }
       return response.json();
     }
   }
@@ -103,6 +115,12 @@ export class restaurantController {
           id: Number(id)
         }
       })
+
+      if (!restaurant) {
+        return response.status(404).json({
+          error: "Restaurante não encontrado!"
+        })
+      }
 
       return response.json();
     }

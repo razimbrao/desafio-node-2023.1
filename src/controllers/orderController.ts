@@ -12,12 +12,6 @@ export class orderController {
                 }
             })
 
-            if (!restaurantExists) {
-                return response.status(400).json({
-                    error: "Restaurante não encontrado!"
-                })
-            }
-
             for (const productId of productsId) {
                 const productExists = await prismaClient.product.count({
                     where: {
@@ -25,10 +19,10 @@ export class orderController {
                     }
                 });
 
-                if (!productExists) {
-                    return response.status(400).json({
-                        error: 'Produto selecionado não existe!'
-                    });
+                if (!productExists || !restaurantExists) {
+                    return response.status(404).json({
+                        error: "Restaurante ou produto não encontrado!"
+                    })
                 }
             }
 
@@ -80,6 +74,12 @@ export class orderController {
                 }
             })
 
+            if (!order) {
+                return response.status(404).json({
+                    error: "Pedido não encontrado!"
+                })
+            }
+
             return response.json(order);
         }
     }
@@ -96,8 +96,8 @@ export class orderController {
             })
 
             if (!restaurantExists) {
-                return response.status(400).json({
-                    error: "Restaurante não encontrado!"
+                return response.status(404).json({
+                    error: "Restaurante ou produto não encontrado!"
                 })
             }
 
@@ -109,14 +109,14 @@ export class orderController {
                 });
 
                 if (!productExists) {
-                    return response.status(400).json({
-                        error: 'Produto selecionado não existe!'
+                    return response.status(404).json({
+                        error: 'Restaurante ou produto não encontrado!'
                     });
                 }
             }
 
             if (total_value < 0) {
-                return response.status(400).json({
+                return response.status(401).json({
                     error: "Preço total inválido!"
                 })
             }
@@ -152,6 +152,12 @@ export class orderController {
                     id: Number(id)
                 }
             })
+
+            if (!order) {
+                return response.status(404).json({
+                    error: "Pedido não encontrado!"
+                })
+            }
 
             return response.json();
         }

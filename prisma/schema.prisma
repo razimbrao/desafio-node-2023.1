@@ -13,12 +13,12 @@ datasource db {
 model Restaurant {
   id       Int       @id @default(autoincrement())
   email    String    @unique
-  name     String?
+  name     String
   password String
   category String
   city     String
   address  String
-  phone    String?
+  phone    String
   products Product[]
   orders   Order[]
 

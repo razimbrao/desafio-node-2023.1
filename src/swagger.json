@@ -1,0 +1,712 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Desafio Node 2023.1",
+        "description": "API para o desafio de Node - 2023.1",
+        "contact": {
+            "name": "Rafael de Oliveira Zimbrão",
+            "url": "https://github.com/razimbrao"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3333/",
+            "description": "Path básico"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "restaurant"
+                ],
+                "summary": "Login de restaurante",
+                "description": "Loga o restaurante",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email para o login",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Senha para o login",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Email ou senha inválidos!"
+                    }
+                }
+            }
+        },
+        "/restaurant": {
+            "post": {
+                "tags": [
+                    "restaurant"
+                ],
+                "summary": "Cria um novo restaurante",
+                "description": "",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do restaurante",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email do restaurante",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Senha do restaurante",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Categoria do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "Cidade do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Endereço do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Telefone do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "products",
+                        "in": "query",
+                        "description": "Produtos do restaurante",
+                        "required": true,
+                        "type": "Product[]"
+                    },
+                    {
+                        "name": "orders",
+                        "in": "query",
+                        "description": "Pedidos do restaurante",
+                        "required": true,
+                        "type": "Order[]"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Email já cadastrado!"
+                    },
+                    "200": {
+                        "description": "Operação bem sucedida, cria um novo restaurante"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "restaurant"
+                ],
+                "summary": "Lista todos os restaurantes",
+                "description": "Lista todos os restaurantes cadastrados",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem sucedida, retorna todos os restaurantes"
+                    }
+                }
+            }
+        },
+        "/restaurant/:id": {
+            "get": {
+                "tags": [
+                    "restaurant"
+                ],
+                "summary": "Visualiza um restaurante",
+                "description": "A partir de um ID, mostra os dados de um restaurante",
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID do restaurante",
+                    "required": true,
+                    "type": "int"
+                },
+                "responses": {
+                    "404": {
+                        "description": "restaurante não encontrado!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "200": {
+                        "description": "Operação bem sucedida, retorna o restaurante"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "restaurant"
+                ],
+                "summary": "Deleta um restaurante do banco de dados",
+                "description": "A partir de um ID deleta um restaurante do banco de dados",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID do restaurante",
+                    "required": true,
+                    "type": "int"
+                },
+                "responses": {
+                    "404": {
+                        "description": "restaurante não encontrado!"
+                    },
+                    "200": {
+                        "description": "restaurante deletado corretamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "restaurant"
+                ],
+                "summary": "Edita os dados de um restaurante",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Pode editar todos os dados de um restaurante menos o ID",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do restaurante",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email do restaurante",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Senha do restaurante",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Categoria do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "Cidade do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Endereço do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Telefone do restaurante",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "products",
+                        "in": "query",
+                        "description": "Produtos do restaurante",
+                        "required": true,
+                        "type": "Product[]"
+                    },
+                    {
+                        "name": "orders",
+                        "in": "query",
+                        "description": "Pedidos do restaurante",
+                        "required": true,
+                        "type": "Order[]"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Restaurante não encontrado!"
+                    },
+                    "200": {
+                        "description": "restaurante editado corretamente"
+                    }
+                }
+            }
+        },
+        "/product": {
+            "post": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "Cria um novo prouto",
+                "description": "",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do produto",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Descrição do produto",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Preço do produto",
+                        "required": true,
+                        "type": "Decimal"
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Categoria do produto",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "in": "query",
+                        "description": "ID do restaurante que o produto responde",
+                        "required": true,
+                        "type": "Int"
+                    },
+                    {
+                        "name": "orders",
+                        "in": "query",
+                        "description": "Pedidos que o produto pertence",
+                        "required": true,
+                        "type": "Order[]"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Restaurante não encontrado!"
+                    },
+                    "401": {
+                        "description": "Preço inválido!"
+                    },
+                    "200": {
+                        "description": "Operação bem sucedida, cria um novo produto"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "Lista todos os produtos",
+                "description": "Lista todos os produtos cadastrados",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem sucedida, retorna todos os produtos"
+                    }
+                }
+            }
+        },
+        "/product/:id": {
+            "get": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "Visualiza um produto",
+                "description": "A partir de um ID, mostra os dados de um produto",
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID do produto",
+                    "required": true,
+                    "type": "int"
+                },
+                "responses": {
+                    "404": {
+                        "description": "produto não encontrado!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "200": {
+                        "description": "Operação bem sucedida, retorna o produto"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "product"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Deleta um produto do banco de dados",
+                "description": "A partir de um ID deleta um produto do banco de dados",
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID do produto",
+                    "required": true,
+                    "type": "int"
+                },
+                "responses": {
+                    "404": {
+                        "description": "produto não encontrado!"
+                    },
+                    "200": {
+                        "description": "produto deletado corretamente"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "product"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Edita os dados de um produto",
+                "description": "Pode editar todos os dados de um produto menos o ID",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do produto",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Descrição do produto",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Preço do produto",
+                        "required": true,
+                        "type": "Decimal"
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Categoria do produto",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "in": "query",
+                        "description": "ID do restaurante que o produto responde",
+                        "required": true,
+                        "type": "Int"
+                    },
+                    {
+                        "name": "orders",
+                        "in": "query",
+                        "description": "Pedidos que o produto pertence",
+                        "required": true,
+                        "type": "Order[]"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Restaurante ou produto não encontrado!"
+                    },
+                    "401": {
+                        "description": "Preço inválido!"
+                    },
+                    "200": {
+                        "description": "produto editado corretamente"
+                    }
+                }
+            }
+        },
+        "/order": {
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Cria um novo pedido",
+                "description": "",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "total_value",
+                        "in": "query",
+                        "description": "Valor total do pedido",
+                        "required": true,
+                        "type": "Decimal"
+                    },
+                    {
+                        "name": "client_name",
+                        "in": "query",
+                        "description": "Nome do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "client_city",
+                        "in": "query",
+                        "description": "Cidade do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "client_address",
+                        "in": "query",
+                        "description": "Endereço do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "client_phone",
+                        "in": "query",
+                        "description": "Telefone do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "in": "query",
+                        "description": "ID do restaurante que o pedido responde",
+                        "required": true,
+                        "type": "Int"
+                    },
+                    {
+                        "name": "products",
+                        "in": "query",
+                        "description": "Produtos que o pedido contém",
+                        "required": true,
+                        "type": "Product[]"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Restaurante ou produto não encontrado!"
+                    },
+                    "401": {
+                        "description": "Preço inválido!"
+                    },
+                    "200": {
+                        "description": "Operação bem sucedida, cria um novo pedido"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Lista todos os pedidos",
+                "description": "Lista todos os pedidos cadastrados",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem sucedida, retorna todos os pedidos"
+                    }
+                }
+            }
+        },
+        "/order/:id": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Visualiza um pedido",
+                "description": "A partir de um ID, mostra os dados de um pedido",
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID do pedido",
+                    "required": true,
+                    "type": "int"
+                },
+                "responses": {
+                    "404": {
+                        "description": "Pedido não encontrado!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "200": {
+                        "description": "Operação bem sucedida, retorna o pedido"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "order"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Deleta um pedido do banco de dados",
+                "description": "A partir de um ID deleta um pedido do banco de dados",
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID do pedido",
+                    "required": true,
+                    "type": "int"
+                },
+                "responses": {
+                    "404": {
+                        "description": "pedido não encontrado!"
+                    },
+                    "200": {
+                        "description": "pedido deletado corretamente"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "order"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Edita os dados de um pedido",
+                "description": "Pode editar todos os dados de um pedido menos o ID",
+                "parameters": [
+                    {
+                        "name": "total_value",
+                        "in": "query",
+                        "description": "Valor total do pedido",
+                        "required": true,
+                        "type": "Decimal"
+                    },
+                    {
+                        "name": "client_name",
+                        "in": "query",
+                        "description": "Nome do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "client_city",
+                        "in": "query",
+                        "description": "Cidade do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "client_address",
+                        "in": "query",
+                        "description": "Endereço do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "client_phone",
+                        "in": "query",
+                        "description": "Telefone do cliente",
+                        "required": true,
+                        "type": "String"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "in": "query",
+                        "description": "ID do restaurante que o pedido responde",
+                        "required": true,
+                        "type": "Int"
+                    },
+                    {
+                        "name": "products",
+                        "in": "query",
+                        "description": "Produtos que o pedido contém",
+                        "required": true,
+                        "type": "Product[]"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Restaurante ou produto não encontrado!"
+                    },
+                    "401": {
+                        "description": "Preço inválido!"
+                    },
+                    "200": {
+                        "description": "pedido editado corretamente"
+                    }
+                }
+            }
+        }
+    }
+}
