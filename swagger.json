@@ -133,7 +133,7 @@
                     "403": {
                         "description": "Email já cadastrado!"
                     },
-                    "200": {
+                    "201": {
                         "description": "Operação bem sucedida, cria um novo restaurante"
                     }
                 }
@@ -353,7 +353,7 @@
                     "406": {
                         "description": "Preço inválido!"
                     },
-                    "200": {
+                    "201": {
                         "description": "Operação bem sucedida, cria um novo produto"
                     }
                 }
@@ -562,7 +562,7 @@
                     "406": {
                         "description": "Preço inválido!"
                     },
-                    "200": {
+                    "201": {
                         "description": "Operação bem sucedida, cria um novo pedido"
                     }
                 }

@@ -4,8 +4,8 @@ import { hash } from "bcryptjs";
 
 export class restaurantController {
 
-  create() {
-    return async (request: Request, response: Response) => {
+  async create(request: Request, response: Response): Promise<Response> {
+    try {
       const { email, name, password, category, city, address, phone } = request.body;
 
       const emailExists = await prismaClient.restaurant.findUnique(
@@ -17,14 +17,12 @@ export class restaurantController {
       )
 
       if (emailExists) {
-        return response.status(403).json({
-          error: "Email já cadastrado!"
-        })
+        return response.status(403).json({ error: "Email já cadastrado!" })
       }
 
       const hashedPassword = await hash(password, 8);
 
-      const restaurant = await prismaClient.restaurant.create({
+      await prismaClient.restaurant.create({
         data: {
           email,
           name,
@@ -38,11 +36,14 @@ export class restaurantController {
 
       return response.json();
     }
+    catch (err) {
+      return response.status(500).json({ error: err.message })
+    }
   }
 
-  list() {
-    return async (request: Request, response: Response) => {
-      const restaurant = await prismaClient.restaurant.findMany( 
+  async list(response: Response): Promise<Response> {
+    try {
+      const restaurant = await prismaClient.restaurant.findMany(
         {
           orderBy: {
             id: 'asc'
@@ -52,13 +53,14 @@ export class restaurantController {
 
       return response.json(restaurant);
     }
+    catch (err) {
+      return response.status(500).json({ error: err.message })
+    }
   }
 
-  view() {
-    return async (request: Request, response: Response) => {
+  async view(request: Request, response: Response): Promise<Response> {
+    try {
       const { id } = request.params;
-
-
 
       const restaurant = await prismaClient.restaurant.findUnique({
         where: {
@@ -66,17 +68,18 @@ export class restaurantController {
         }
       })
       if (!restaurant) {
-        return response.status(404).json({
-          error: "Restaurante não encontrado!"
-        })
+        return response.status(404).json({ error: "Restaurante não encontrado!" })
       }
 
       return response.json(restaurant);
     }
+    catch (err) {
+      return response.status(500).json({ error: err.message })
+    }
   }
 
-  update() {
-    return async (request: Request, response: Response) => {
+  async update(request: Request, response: Response): Promise<Response> {
+    try {
       const { id } = request.params;
       const { email, name, password, category, city, address, phone } = request.body;
 
@@ -98,18 +101,18 @@ export class restaurantController {
       })
 
       if (!restaurant) {
-        return response.status(404).json({
-          error: "Restaurante não encontrado!"
-        })
+        return response.status(404).json({ error: "Restaurante não encontrado!" })
       }
       return response.json();
     }
+    catch (err) {
+      return response.status(500).json({ error: err.message })
+    }
   }
 
-  delete() {
-    return async (request: Request, response: Response) => {
+  async delete(request: Request, response: Response): Promise<Response> {
+    try {
       const { id } = request.params;
-
       const restaurant = await prismaClient.restaurant.delete({
         where: {
           id: Number(id)
@@ -124,6 +127,8 @@ export class restaurantController {
 
       return response.json();
     }
+    catch (err) {
+      return response.status(500).json({ error: err.message })
+    }
   }
-
 }

@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { prismaClient } from "../database/prismaClient";
 
 export class orderController {
-    create() {
-        return async (request: Request, response: Response) => {
+
+    async create(request: Request, response: Response): Promise<Response> {
+        try {
             const { total_value, client_name, client_city, client_address, client_phone, restaurantId, productsId } = request.body;
 
             const restaurantExists = await prismaClient.restaurant.findUnique({
@@ -20,19 +21,15 @@ export class orderController {
                 });
 
                 if (!productExists || !restaurantExists) {
-                    return response.status(404).json({
-                        error: "Restaurante ou produto não encontrado!"
-                    })
+                    return response.status(404).json({ error: "Restaurante ou produto não encontrado!" })
                 }
             }
 
             if (total_value < 0) {
-                return response.status(406).json({
-                    error: "Preço total inválido!"
-                })
+                return response.status(406).json({ error: "Preço total inválido!" })
             }
 
-            const order = await prismaClient.order.create({
+            await prismaClient.order.create({
                 data: {
                     total_value,
                     client_name,
@@ -41,17 +38,20 @@ export class orderController {
                     client_phone,
                     restaurantId,
                     products: {
-                        connect: productsId.map(id => ({ id }))
+                        connect: productsId.map((id: any) => ({ id }))
                     }
                 }
             })
 
-            return response.json();
+            return response.status(201).json();
+        }
+        catch (err) {
+            return response.status(500).json({ error: err.message })
         }
     }
 
-    list() {
-        return async (request: Request, response: Response) => {
+    async list(response: Response): Promise<Response> {
+        try {
             const order = await prismaClient.order.findMany(
                 {
                     orderBy: {
@@ -62,10 +62,13 @@ export class orderController {
 
             return response.json(order);
         }
+        catch (err) {
+            return response.status(500).json({ error: err.message })
+        }
     }
 
-    view() {
-        return async (request: Request, response: Response) => {
+    async view(request: Request, response: Response): Promise<Response> {
+        try {
             const { id } = request.params;
 
             const order = await prismaClient.order.findUnique({
@@ -75,17 +78,19 @@ export class orderController {
             })
 
             if (!order) {
-                return response.status(404).json({
-                    error: "Pedido não encontrado!"
-                })
+                return response.status(404).json({ error: "Pedido não encontrado!" })
             }
 
             return response.json(order);
         }
+        catch (err) {
+            return response.status(500).json({ error: err.message })
+        }
     }
 
-    update() {
-        return async (request: Request, response: Response) => {
+    async update(request: Request, response: Response): Promise<Response> {
+        try {
+
             const { id } = request.params;
             const { total_value, client_name, client_city, client_address, client_phone, restaurantId, productsId } = request.body;
 
@@ -96,9 +101,7 @@ export class orderController {
             })
 
             if (!restaurantExists) {
-                return response.status(404).json({
-                    error: "Restaurante ou produto não encontrado!"
-                })
+                return response.status(404).json({ error: "Restaurante ou produto não encontrado!" })
             }
 
             for (const productId of productsId) {
@@ -107,22 +110,17 @@ export class orderController {
                         id: productId
                     }
                 });
-
                 if (!productExists) {
-                    return response.status(404).json({
-                        error: 'Restaurante ou produto não encontrado!'
-                    });
+                    return response.status(404).json({ error: 'Restaurante ou produto não encontrado!' });
                 }
             }
 
             if (total_value < 0) {
-                return response.status(406).json({
-                    error: "Preço total inválido!"
-                })
+                return response.status(406).json({ error: "Preço total inválido!" })
             }
 
 
-            const order = await prismaClient.order.update({
+            await prismaClient.order.update({
                 where: {
                     id: Number(id)
                 },
@@ -134,17 +132,20 @@ export class orderController {
                     client_phone,
                     restaurantId,
                     products: {
-                        connect: productsId.map(id => ({ id }))
+                        connect: productsId.map((id: any) => ({ id }))
                     }
                 }
             })
 
             return response.json();
         }
+        catch (err) {
+            return response.status(500).json({ error: err.message })
+        }
     }
 
-    delete() {
-        return async (request: Request, response: Response) => {
+    async delete(request: Request, response: Response): Promise<Response> {
+        try {
             const { id } = request.params;
 
             const order = await prismaClient.order.delete({
@@ -154,12 +155,13 @@ export class orderController {
             })
 
             if (!order) {
-                return response.status(404).json({
-                    error: "Pedido não encontrado!"
-                })
+                return response.status(404).json({ error: "Pedido não encontrado!" })
             }
 
             return response.json();
+        }
+        catch (err) {
+            return response.status(500).json({ error: err.message })
         }
     }
 }

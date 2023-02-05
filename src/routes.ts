@@ -2,29 +2,37 @@ import { Router } from "express";
 import { orderController } from "./controllers/orderController";
 import { productController } from "./controllers/productController";
 import { restaurantController } from "./controllers/restaurantController";
-import { authenticateController } from "./controllers/authenticateController";
-import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
+import { loginController } from "./controllers/loginController";
+import { authVerify } from "./middlewares/authVerify";
 
 const router = Router();
+const orderCtrl  = new orderController();
+const productCtrl = new productController();
+const restaurantCtrl = new restaurantController();
+const loginCtrl = new loginController();
 
-router.post("/login", new authenticateController().login());
+//Login
+router.post("/login",loginCtrl.login);
 
-router.get("/restaurant", new restaurantController().list());
-router.get("/restaurant/:id", new restaurantController().view());
-router.post("/restaurant", ensureAuthenticated, new restaurantController().create());
-router.put("/restaurant/:id", ensureAuthenticated, new restaurantController().update());
-router.delete("/restaurant/:id", ensureAuthenticated, new restaurantController().delete());
+//Restaurant
+router.get("/restaurant", restaurantCtrl.list);
+router.get("/restaurant/:id", restaurantCtrl.view);
+router.post("/restaurant", authVerify, restaurantCtrl.create);
+router.put("/restaurant/:id", authVerify, restaurantCtrl.update);
+router.delete("/restaurant/:id", authVerify, restaurantCtrl.delete);
 
-router.get("/product", new productController().list());
-router.get("/product/:id", new productController().view());
-router.post("/product", ensureAuthenticated, new productController().create());
-router.put("/product/:id", ensureAuthenticated, new productController().update());
-router.delete("/product/:id", ensureAuthenticated, new productController().delete());
+//Product
+router.get("/product", productCtrl.list);
+router.get("/product/:id", productCtrl.view);
+router.post("/product", authVerify, productCtrl.create);
+router.put("/product/:id", authVerify, productCtrl.update);
+router.delete("/product/:id", authVerify, productCtrl.delete);
 
-router.get("/order", new orderController().list());
-router.get("/order/:id", new orderController().view());
-router.post("/order", ensureAuthenticated, new orderController().create());
-router.put("/order/:id", ensureAuthenticated, new orderController().update());
-router.delete("/order/:id", ensureAuthenticated, new orderController().delete());
+//Order
+router.get("/order", orderCtrl.list);
+router.get("/order/:id", orderCtrl.view);
+router.post("/order", authVerify, orderCtrl.create);
+router.put("/order/:id", authVerify, orderCtrl.update);
+router.delete("/order/:id", authVerify, orderCtrl.delete);
 
 export { router };
