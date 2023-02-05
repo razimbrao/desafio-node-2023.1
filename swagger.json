@@ -40,6 +40,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "200": {
                         "description": "OK",
                         "schema": {
@@ -130,6 +133,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "403": {
                         "description": "Email já cadastrado!"
                     },
@@ -145,6 +151,9 @@
                 "summary": "Lista todos os restaurantes",
                 "description": "Lista todos os restaurantes cadastrados",
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "200": {
                         "description": "Operação bem sucedida, retorna todos os restaurantes"
                     }
@@ -166,6 +175,9 @@
                     "type": "int"
                 },
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "restaurante não encontrado!",
                         "schema": {
@@ -196,6 +208,9 @@
                     "type": "int"
                 },
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "restaurante não encontrado!"
                     },
@@ -204,7 +219,7 @@
                     }
                 }
             },
-            "post": {
+            "put": {
                 "tags": [
                     "restaurant"
                 ],
@@ -281,6 +296,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "Restaurante não encontrado!"
                     },
@@ -347,6 +365,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "Restaurante não encontrado!"
                     },
@@ -365,6 +386,9 @@
                 "summary": "Lista todos os produtos",
                 "description": "Lista todos os produtos cadastrados",
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "200": {
                         "description": "Operação bem sucedida, retorna todos os produtos"
                     }
@@ -386,6 +410,9 @@
                     "type": "int"
                 },
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "produto não encontrado!",
                         "schema": {
@@ -416,6 +443,9 @@
                     "type": "int"
                 },
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "produto não encontrado!"
                     },
@@ -480,6 +510,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "Restaurante ou produto não encontrado!"
                     },
@@ -556,6 +589,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "Restaurante ou produto não encontrado!"
                     },
@@ -574,6 +610,9 @@
                 "summary": "Lista todos os pedidos",
                 "description": "Lista todos os pedidos cadastrados",
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "200": {
                         "description": "Operação bem sucedida, retorna todos os pedidos"
                     }
@@ -595,6 +634,9 @@
                     "type": "int"
                 },
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "Pedido não encontrado!",
                         "schema": {
@@ -625,6 +667,9 @@
                     "type": "int"
                 },
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "pedido não encontrado!"
                     },
@@ -696,6 +741,9 @@
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor!"
+                    },
                     "404": {
                         "description": "Restaurante ou produto não encontrado!"
                     },
