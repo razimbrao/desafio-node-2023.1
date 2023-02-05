@@ -17,7 +17,7 @@ export class restaurantController {
       )
 
       if (emailExists) {
-        return response.status(401).json({
+        return response.status(403).json({
           error: "Email já cadastrado!"
         })
       }

@@ -20,7 +20,7 @@ export class productController {
             }
 
             if (price < 0) {
-                return response.status(401).json({
+                return response.status(406).json({
                     error: "Preço inválido!"
                 })
             }
@@ -91,7 +91,7 @@ export class productController {
             }
 
             if (price < 0) {
-                return response.status(401).json({
+                return response.status(406).json({
                     error: "Preço inválido!"
                 })
             }

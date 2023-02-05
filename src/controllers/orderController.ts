@@ -27,7 +27,7 @@ export class orderController {
             }
 
             if (total_value < 0) {
-                return response.status(400).json({
+                return response.status(406).json({
                     error: "Preço total inválido!"
                 })
             }
@@ -116,7 +116,7 @@ export class orderController {
             }
 
             if (total_value < 0) {
-                return response.status(401).json({
+                return response.status(406).json({
                     error: "Preço total inválido!"
                 })
             }

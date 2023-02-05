@@ -12,7 +12,7 @@
     "servers": [
         {
             "url": "http://localhost:3333/",
-            "description": "Path básico"
+            "description": "Host de teste da API"
         }
     ],
     "paths": {
@@ -46,7 +46,7 @@
                             "type": "string"
                         }
                     },
-                    "400": {
+                    "403": {
                         "description": "Email ou senha inválidos!"
                     }
                 }
@@ -130,7 +130,7 @@
                     }
                 ],
                 "responses": {
-                    "401": {
+                    "403": {
                         "description": "Email já cadastrado!"
                     },
                     "200": {
@@ -350,7 +350,7 @@
                     "404": {
                         "description": "Restaurante não encontrado!"
                     },
-                    "401": {
+                    "406": {
                         "description": "Preço inválido!"
                     },
                     "200": {
@@ -483,7 +483,7 @@
                     "404": {
                         "description": "Restaurante ou produto não encontrado!"
                     },
-                    "401": {
+                    "406": {
                         "description": "Preço inválido!"
                     },
                     "200": {
@@ -559,7 +559,7 @@
                     "404": {
                         "description": "Restaurante ou produto não encontrado!"
                     },
-                    "401": {
+                    "406": {
                         "description": "Preço inválido!"
                     },
                     "200": {
@@ -699,7 +699,7 @@
                     "404": {
                         "description": "Restaurante ou produto não encontrado!"
                     },
-                    "401": {
+                    "406": {
                         "description": "Preço inválido!"
                     },
                     "200": {

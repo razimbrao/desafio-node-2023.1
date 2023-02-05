@@ -18,7 +18,7 @@ export class authenticateController {
         })
 
         if (!restaurant) {
-            return response.status(400).json({
+            return response.status(403).json({
                 error: "Email ou senha inválidos!"
             })
         }
@@ -27,7 +27,7 @@ export class authenticateController {
 
         if (!passwordMatch) {
 
-            return response.status(400).json({
+            return response.status(403).json({
                 error: "Email ou senha inválidos!"
             })
         }
@@ -53,7 +53,7 @@ export class authenticateController {
 
                 return response.json(token);
             } catch (err) {
-                return response.status(400).json({
+                return response.status(403).json({
                     error: err.message
                 })
             }
