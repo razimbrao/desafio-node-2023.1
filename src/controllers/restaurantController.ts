@@ -22,7 +22,7 @@ export class restaurantController {
 
       const hashedPassword = await hash(password, 8);
 
-      await prismaClient.restaurant.create({
+      const restaurant = await prismaClient.restaurant.create({
         data: {
           email,
           name,
@@ -34,14 +34,14 @@ export class restaurantController {
         }
       })
 
-      return response.json();
+      return response.json(restaurant);
     }
     catch (err) {
       return response.status(500).json({ error: err.message })
     }
   }
 
-  async list(response: Response): Promise<Response> {
+  async list(request:Request,  response: Response): Promise<Response> {
     try {
       const restaurant = await prismaClient.restaurant.findMany(
         {
@@ -51,7 +51,7 @@ export class restaurantController {
         }
       );
 
-      return response.json(restaurant);
+      return response.status(200).json(restaurant);
     }
     catch (err) {
       return response.status(500).json({ error: err.message })

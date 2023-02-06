@@ -38,7 +38,7 @@ export class productController {
         }
     }
 
-    async list(response: Response): Promise<Response> {
+    async list(request: Request, response: Response): Promise<Response> {
         try {
             const product = await prismaClient.product.findMany(
                 {

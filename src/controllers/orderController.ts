@@ -50,7 +50,7 @@ export class orderController {
         }
     }
 
-    async list(response: Response): Promise<Response> {
+    async list(request: Request, response: Response): Promise<Response> {
         try {
             const order = await prismaClient.order.findMany(
                 {
